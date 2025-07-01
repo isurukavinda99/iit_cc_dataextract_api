@@ -7,12 +7,21 @@ from app.config.config import Base, init_db
 from app.middleware.alb_auth import ALBCognitoAuth
 from fastapi import Request
 import logging
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
 security = ALBCognitoAuth()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def startup_event():
