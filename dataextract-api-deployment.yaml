@@ -1,0 +1,70 @@
+#dataextract-api-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dataextract-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dataextract-api
+  template:
+    metadata:
+      labels:
+        app: dataextract-api
+    spec:
+      containers:
+      - name: dataextract-api-container
+        image: isurukavinda99/dataextract_api:latest
+        ports:
+        - containerPort: 8083
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: DB_HOST
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: DB_PASSWORD
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: DB_PORT
+        - name: COGNITO_USER_POOL_ID
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: COGNITO_USER_POOL_ID
+        - name: COGNITO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: COGNITO_CLIENT_ID
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: dataextract-api-secret
+              key: AWS_REGION
+
