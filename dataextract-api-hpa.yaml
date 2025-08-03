@@ -1,3 +1,5 @@
+#dataextract-api-hap.yaml
+
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
